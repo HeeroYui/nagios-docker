@@ -1,0 +1,22 @@
+version: '3'
+services:
+  nagios:
+    image: jasonrivers/nagios:latest
+    restart: always
+    # select the user that can access to the files
+    environment:
+      - USER_UID=1001
+      - USER_GID=1001
+    ports:
+      - "8080:80"
+    # Uncomment the next line to validate the configuration files
+    #command: nagios -v /opt/nagios/etc/nagios.cfg
+    volumes:
+      - ./data_nagios/config/nagios.cfg:/opt/nagios/etc/nagios.cfg:rw
+      - ./data_nagios/config/commands.cfg:/opt/nagios/etc/commands.cfg:rw
+      - ./data_nagios/config/htpasswd.users:/opt/nagios/etc/htpasswd.users:rw
+      - ./data_nagios/config/data:/opt/nagios/etc/data:rw
+      - ./data_nagios/log:/opt/nagios/log:rw
+      - ./data_nagios/var:/opt/nagios/var:rw
+      - ./data_nagios/cache:/opt/nagios/cache:rw
+      - ./data_nagios/plugins/config:/opt/nagios/etc/plugins/config:rw
